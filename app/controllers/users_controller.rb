@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     @user = User.new( params[:user])
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to PARC360!"
+      flash[:success] = "Welcome to PARC360! Add an Account to get started. Follow users to get help!"
       redirect_to @user
     else
       render 'new'
