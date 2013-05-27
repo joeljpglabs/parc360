@@ -57,5 +57,5 @@ def make_user_accounts
   users = User.all(limit:6)
   accounts = Account.all
   name = Faker::Lorem.sentence( 1 )
-  users.each { |user| accounts.each { |account| user.user_accounts.create!( account_id: account.id, name: name)}}
+  users.each { |user| accounts.each { |account| user.user_accounts.create!( account_id: account.id, name: account.name)}}
 end
