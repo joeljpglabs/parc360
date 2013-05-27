@@ -4,6 +4,8 @@ namespace :db do
     make_users
     make_microposts
     make_relationships
+    make_accounts
+    make_user_accounts
   end
 end
 
@@ -40,4 +42,20 @@ def make_relationships
   followers = users[3..40]
   followed_users.each { |followed| user.follow!( followed )}
   followers.each { |follower| follower.follow!( user )}
+end
+
+def make_accounts
+  Account.create!( name: 'Checking',
+                  vendor_name: 'Wells Fargo',
+                  url: 'http://www.wellsfargo.com')
+  Account.create!( name: 'Savings',
+                  vendor_name: 'Bank of America',
+                  url: 'http://www.bofa.com')
+end
+
+def make_user_accounts
+  users = User.all(limit:6)
+  accounts = Account.all
+  name = Faker::Lorem.sentence( 1 )
+  users.each { |user| accounts.each { |account| user.user_accounts.create!( account_id: account.id, name: name)}}
 end

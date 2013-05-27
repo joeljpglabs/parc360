@@ -1,0 +1,11 @@
+<li>
+  <span class="content"><%= user_account.name %> </span>
+  <span class="timestamp">
+    Registered <%= time_ago_in_words( user_account.created_at) %>  ago.
+  </span>
+  <% if current_user?(user_account.user) %>
+    <%= link_to "delete", user_account, method: :delete,
+               data: { confirm: "Are you sure?"},
+               title: user_account.name %>
+  <% end %>
+</li>

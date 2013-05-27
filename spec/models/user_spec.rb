@@ -25,6 +25,7 @@ describe User do
   it { should respond_to(:unfollow!)}
   it { should respond_to(:reverse_relationships)}
   it { should respond_to(:followers)}
+  it { should respond_to(:user_accounts)}
 
   it { should be_valid }
   it { should_not be_admin}
@@ -49,6 +50,29 @@ describe User do
 
       it { should_not be_following( other_user )}
       its(:followed_users) { should_not include(other_user)}
+    end
+  end
+
+  describe "user_accounts association" do
+    before {@user.save}
+    let!(:older_account) do
+      FactoryGirl.create(:user_account, user: @user, account_id:1, created_at: 1.day.ago)
+    end
+    let!(:newer_account) do
+      FactoryGirl.create(:user_account, user: @user, account_id: 2, created_at: 1.hour.ago)
+    end
+
+    it "should have the right user_account in the right order" do
+      @user.user_accounts.should == [older_account, newer_account]
+    end
+
+    it "should destroy associated user_accounts" do
+      user_accounts = @user.user_accounts.dup
+      @user.destroy
+      user_accounts.should_not be_empty
+      user_accounts.each do | user_account |
+        UserAccount.find_by_id(user_account.id).should be_nil
+      end
     end
   end
 

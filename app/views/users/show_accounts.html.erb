@@ -1,0 +1,30 @@
+<% provide(:title, @title) %>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <%= gravatar_for @user %>
+      <h1><%= @user.name %></h1>
+      <span><%= link_to "view my profile", @user %></span>
+      <span><b>Posts:</b> <%= @user.microposts.count %></span>
+    </section>
+    <section>
+      <%= render 'shared/stats' %>
+    </section>
+    <section>
+      <p>Add your checking, saving, and health information to manage your financial well being. Have trusted friends and advisors
+        follow and engage with you. Share only the data that you want.</p>
+    </section>
+    <section>
+      <%=render 'shared/user_account_form' %>
+    </section>
+  </aside>
+  <div class="span8">
+      <% if @user.user_accounts.any? %>
+          <h3>Accounts (<%= @user.user_accounts.count %>)</h3>
+          <ol class="micropost">
+            <%= render @user_accounts %>
+          </ol>
+          <%= will_paginate @user_accounts %>
+      <% end %>
+  </div>
+</div>

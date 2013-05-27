@@ -192,6 +192,23 @@ describe "User Pages" do
     end
   end
 
+  describe "profile pages accounts" do
+    let(:user) { FactoryGirl.create(:user)}
+    let(:account) {FactoryGirl.create(:account)}
+    let!(:ud1) { FactoryGirl.create(:user_account, user: user, account: account, name:' Wells Fargo 1')}
+    let!(:ud2) { FactoryGirl.create(:user_account, user: user, account: account, name:' Wells Fargo 2')}
+
+    before { visit user_path( user) }
+    it{ should have_selector('h1', text: user.name)}
+    it{ should have_selector('title', text:user.name)}
+
+    describe "accounts" do
+      it { should have_content(ud1.name) }
+      it { should have_content(ud2.name) }
+      it { should have_content(user.user_accounts.count) }
+    end
+  end
+
   describe 'followers/following' do
     let(:user) { FactoryGirl.create(:user)}
     let(:other_user) { FactoryGirl.create(:user)}
